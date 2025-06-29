@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0" />
+  <title>Heliantys</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,700&display=swap" rel="stylesheet">
+  <style>
+    html, body { height: 100%; overflow: hidden; }
+  </style>
+</head>
+<body>
+  <div class="kiosk-container">
+    <h1 class="kiosk-title">Heliantys</h1>
+    <div class="kiosk-cards">
+      <div class="kiosk-card guide" onclick="navigate('guide.html')">
+        <img src="https://ncproducts.s3.eu-west-3.amazonaws.com/ChatGPT_Image_26_mai_2025__13_01_07-removebg-preview.png" alt="Guide Personnel" class="kiosk-card-img" />
+        <div class="kiosk-card-content">
+          <h2>Guide Personnel</h2>
+          <p>Posez vos questions et obtenez des recommandations personnalisées</p>
+        </div>
+        <button class="kiosk-card-btn">&rarr;</button>
+      </div>
+      <div class="kiosk-card scan" onclick="navigate('scanner.html')">
+        <img src="https://ncproducts.s3.eu-west-3.amazonaws.com/ChatGPT_Image_26_mai_2025__13_42_23-removebg-preview.png" alt="Scanner un produit" class="kiosk-card-img" />
+        <div class="kiosk-card-content">
+          <h2>Scanner un produit</h2>
+          <p>Analysez des produits et découvrez leur composition</p>
+        </div>
+        <button class="kiosk-card-btn">&rarr;</button>
+      </div>
+      <div class="kiosk-card recettes" onclick="navigate('recettes.html')">
+        <img src="https://ncproducts.s3.eu-west-3.amazonaws.com/ChatGPT_Image_23_mai_2025__14_54_11-removebg-preview.png" alt="Recettes" class="kiosk-card-img" />
+        <div class="kiosk-card-content">
+          <h2>Recettes</h2>
+          <p>Découvrez des idées de recettes saines et savoureuses</p>
+        </div>
+        <button class="kiosk-card-btn">&rarr;</button>
+      </div>
+    </div>
+    <footer class="kiosk-footer">Laboratoire Heliantys</footer>
+  </div>
+  <script src="../src/renderer/home.js"></script>
+</body>
+</html>

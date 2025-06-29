@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0" />
+  <title>Recette - Heliantys</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,700&display=swap" rel="stylesheet">
+  <style>
+    html, body { height: 100%; margin: 0; padding: 0; }
+    .kiosk-container { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; height: 100vh; width: 100vw; box-sizing: border-box; }
+    .kiosk-header { position: sticky; top: 0; z-index: 10; width: 100vw; background: #fff; box-shadow: 0 2px 12px 0 rgba(23,98,74,0.06); }
+    .kiosk-header-inner { display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 68px; }
+    .kiosk-header-title { flex: 1; text-align: center; font-family: 'Raleway', Arial, sans-serif; font-size: 1.6rem; font-weight: 700; color: #17624a; letter-spacing: 1px; }
+    .kiosk-header-btn { background: #17624a; color: #fff; border: none; border-radius: 20px; font-size: 1.1rem; font-family: 'Raleway', Arial, sans-serif; padding: 10px 22px; cursor: pointer; box-shadow: 0 2px 8px 0 rgba(23,98,74,0.10); transition: background 0.1s; min-width: 80px; display: flex; align-items: center; justify-content: center; }
+    .kiosk-header-btn:active { background: #1ec98b; }
+    .kiosk-header-btn.back { padding: 10px 18px; min-width: 0; }
+    .kiosk-header-btn.create { background: #1ec98b; color: #fff; margin-left: 12px; }
+    .kiosk-header-spacer { width: 80px; }
+    .kiosk-scroll-area { flex: 1; width: 100%; display: flex; justify-content: center; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+    .kiosk-recipe-card { max-width: 540px; margin: 0 auto 0 auto; background: #fff; border-radius: 32px; box-shadow: 0 4px 32px 0 rgba(23,98,74,0.10); padding: 0 0 24px 0; display: flex; flex-direction: column; align-items: center; min-height: 600px; }
+    .kiosk-recipe-img { width: 100%; height: 220px; object-fit: cover; border-top-left-radius: 32px; border-top-right-radius: 32px; }
+    .kiosk-recipe-title { font-family: 'Raleway', Arial, sans-serif; font-size: 2rem; font-weight: 700; color: #17624a; margin: 24px 0 8px 0; text-align: center; }
+    .kiosk-recipe-desc { font-size: 1.1rem; color: #555; margin: 0 24px 18px 24px; text-align: center; }
+    .kiosk-recipe-section { width: 100%; margin-bottom: 18px; }
+    .kiosk-recipe-section h2 { font-size: 1.2rem; color: #17624a; font-weight: 700; margin: 0 0 8px 32px; }
+    .kiosk-ingredients-list { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 24px 0 24px; }
+    .kiosk-ingredient-chip { background: #e6f5ea; color: #17624a; border-radius: 16px; padding: 8px 16px; font-size: 1rem; font-family: 'Raleway', Arial, sans-serif; margin-bottom: 6px; }
+    .kiosk-steps-list { margin: 0 24px 0 24px; padding: 0; list-style: none; }
+    .kiosk-step-card { background: #f7f8fa; border-radius: 18px; margin-bottom: 10px; padding: 14px 18px; font-size: 1rem; color: #444; font-family: 'Raleway', Arial, sans-serif; display: flex; align-items: flex-start; }
+    .kiosk-step-num { background: #1ec98b; color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-right: 14px; font-size: 1rem; }
+    @media (max-width: 600px) { .kiosk-recipe-card { max-width: 98vw; } .kiosk-recipe-img { height: 140px; } .kiosk-header-inner { padding: 0 12px; height: 54px; } .kiosk-header-title { font-size: 1.1rem; } .kiosk-header-btn { font-size: 1rem; padding: 8px 12px; min-width: 60px; } .kiosk-header-spacer { width: 60px; } }
+  </style>
+</head>
+<body>
+  <div class="kiosk-container">
+    <div class="kiosk-header">
+      <div class="kiosk-header-inner">
+        <button class="kiosk-header-btn back" onclick="navigate('index.html')">&larr;</button>
+        <div class="kiosk-header-title">Recette</div>
+        <button class="kiosk-header-btn create" onclick="alert('Créer une recette')">Créer</button>
+      </div>
+    </div>
+    <div class="kiosk-scroll-area">
+      <div class="kiosk-recipe-card">
+        <img src="https://images.unsplash.com/photo-1464305795204-6f5bbfc7fb81?auto=format&fit=crop&w=800&q=80" alt="Recette" class="kiosk-recipe-img" />
+        <h1 class="kiosk-recipe-title">Salade fraîcheur estivale</h1>
+        <p class="kiosk-recipe-desc">Une salade légère et rafraîchissante, parfaite pour l'été. Riche en vitamines et saveurs naturelles.</p>
+        <div class="kiosk-recipe-section">
+          <h2>Ingrédients</h2>
+          <div class="kiosk-ingredients-list">
+            <span class="kiosk-ingredient-chip">1 concombre</span>
+            <span class="kiosk-ingredient-chip">2 tomates</span>
+            <span class="kiosk-ingredient-chip">100g de feta</span>
+            <span class="kiosk-ingredient-chip">Quelques feuilles de menthe</span>
+            <span class="kiosk-ingredient-chip">Huile d'olive</span>
+            <span class="kiosk-ingredient-chip">Sel</span>
+            <span class="kiosk-ingredient-chip">Poivre</span>
+          </div>
+        </div>
+        <div class="kiosk-recipe-section">
+          <h2>Étapes</h2>
+          <ul class="kiosk-steps-list">
+            <li class="kiosk-step-card"><span class="kiosk-step-num">1</span>Laver et couper le concombre et les tomates.</li>
+            <li class="kiosk-step-card"><span class="kiosk-step-num">2</span>Émietter la feta et ciseler la menthe.</li>
+            <li class="kiosk-step-card"><span class="kiosk-step-num">3</span>Mélanger tous les ingrédients dans un saladier.</li>
+            <li class="kiosk-step-card"><span class="kiosk-step-num">4</span>Assaisonner avec l'huile d'olive, le sel et le poivre.</li>
+            <li class="kiosk-step-card"><span class="kiosk-step-num">5</span>Servir frais.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../src/renderer/home.js"></script>
+</body>
+</html>

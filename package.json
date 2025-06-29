@@ -1,0 +1,13 @@
+{
+  "name": "heliantys-kiosk",
+  "version": "1.0.0",
+  "main": "src/main.js",
+  "description": "Heliantys Kiosk Application",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^37.1.0"
+  }
+} 
