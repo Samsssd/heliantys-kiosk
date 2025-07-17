@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0" />
+  <title>Guide Personnel - Heliantys</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,700&display=swap" rel="stylesheet">
+  <style>
+    html, body { height: 100%; margin: 0; padding: 0; }
+    .kiosk-container { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; height: 100vh; width: 100vw; box-sizing: border-box; }
+    .kiosk-header { position: sticky; top: 0; z-index: 10; width: 100vw; background: #fff; box-shadow: 0 2px 12px 0 rgba(23,98,74,0.06); }
+    .kiosk-header-inner { display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 68px; }
+    .kiosk-header-title { flex: 1; text-align: center; font-family: 'Raleway', Arial, sans-serif; font-size: 1.6rem; font-weight: 700; color: #17624a; letter-spacing: 1px; }
+    .kiosk-header-btn { background: #17624a; color: #fff; border: none; border-radius: 20px; font-size: 1.1rem; font-family: 'Raleway', Arial, sans-serif; padding: 10px 22px; cursor: pointer; box-shadow: 0 2px 8px 0 rgba(23,98,74,0.10); transition: background 0.1s; min-width: 80px; display: flex; align-items: center; justify-content: center; }
+    .kiosk-header-btn:active { background: #1ec98b; }
+    .kiosk-header-btn.back { padding: 10px 18px; min-width: 0; }
+    .kiosk-header-spacer { width: 80px; }
+    .chat-main { flex: 1; width: 100vw; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; background: #f7f8fa; min-height: 0; }
+    .chat-history { flex: 1 1 0%; width: 100%; max-width: 540px; margin: 0 auto; padding: 24px 0 12px 0; overflow-y: auto; display: flex; flex-direction: column; gap: 18px; min-height: 0; touch-action: pan-y; -webkit-overflow-scrolling: touch; }
+    .chat-msg { display: flex; flex-direction: column; align-items: flex-start; }
+    .chat-msg.user { align-items: flex-end; }
+    .chat-bubble { max-width: 90%; font-size: 1.15rem; padding: 18px 22px; border-radius: 22px; margin-bottom: 2px; font-family: 'Raleway', Arial, sans-serif; box-shadow: 0 2px 8px 0 rgba(23,98,74,0.08); }
+    .chat-msg.user .chat-bubble { background: #1ec98b; color: #fff; border-bottom-right-radius: 8px; }
+    .chat-msg.assistant .chat-bubble { background: #e6f5ea; color: #17624a; border-bottom-left-radius: 8px; border: 2px solid #1ec98b; font-weight: 500; }
+    .chat-msg { margin-bottom: 8px; }
+    .chat-loading { color: #888; font-size: 1.1rem; margin: 0 0 0 12px; }
+    .chat-error { color: #dc2626; font-size: 1.1rem; margin: 0 0 0 12px; }
+    .chat-input-bar { width: 100vw; max-width: 540px; margin: 0 auto; display: flex; align-items: center; background: #fff; box-shadow: 0 -2px 12px 0 rgba(23,98,74,0.06); padding: 18px 24px 18px 24px; position: sticky; bottom: 0; z-index: 10; }
+    .chat-input { flex: 1; font-size: 1.2rem; padding: 16px 18px; border-radius: 18px; border: 1.5px solid #e0e0e0; font-family: 'Raleway', Arial, sans-serif; outline: none; margin-right: 18px; }
+    .chat-send-btn { background: #17624a; color: #fff; border: none; border-radius: 18px; font-size: 1.2rem; font-family: 'Raleway', Arial, sans-serif; padding: 16px 32px; cursor: pointer; box-shadow: 0 2px 8px 0 rgba(23,98,74,0.10); transition: background 0.1s; }
+    .chat-send-btn:active { background: #1ec98b; }
+    @media (max-width: 600px) { .kiosk-header-inner { padding: 0 12px; height: 54px; } .kiosk-header-title { font-size: 1.1rem; } .kiosk-header-btn { font-size: 1rem; padding: 8px 12px; min-width: 60px; } .chat-input-bar { padding: 10px 8px; } .chat-input { font-size: 1rem; padding: 10px 10px; } .chat-send-btn { font-size: 1rem; padding: 10px 16px; } }
+  </style>
+</head>
+<body>
+  <div class="kiosk-container">
+    <div class="kiosk-header">
+      <div class="kiosk-header-inner">
+        <button class="kiosk-header-btn back" onclick="navigate('index.html')">&larr;</button>
+        <div class="kiosk-header-title">Guide Personnel</div>
+        <div class="kiosk-header-spacer"></div>
+      </div>
+    </div>
+    <main class="chat-main">
+      <div id="chat-history" class="chat-history"></div>
+      <form id="chat-form" class="chat-input-bar" autocomplete="off">
+        <input id="chat-input" class="chat-input" type="text" placeholder="Posez votre question..." autocomplete="off" required />
+        <button type="submit" class="chat-send-btn">Envoyer</button>
+      </form>
+    </main>
+  </div>
+  <script>
+    const chatHistory = document.getElementById('chat-history');
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    let messages = [];
+    let loading = false;
+
+    function renderChat() {
+      chatHistory.innerHTML = '';
+      messages.forEach(msg => {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = 'chat-msg ' + msg.role;
+        const bubble = document.createElement('div');
+        bubble.className = 'chat-bubble';
+        bubble.textContent = msg.content;
+        msgDiv.appendChild(bubble);
+        chatHistory.appendChild(msgDiv);
+      });
+      if (loading) {
+        const loadingDiv = document.createElement('div');
+        loadingDiv.className = 'chat-loading';
+        loadingDiv.textContent = 'Assistant est en train de répondre...';
+        chatHistory.appendChild(loadingDiv);
+      }
+      chatHistory.scrollTop = chatHistory.scrollHeight;
+    }
+
+    function showError(error) {
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'chat-error';
+      errorDiv.textContent = error;
+      chatHistory.appendChild(errorDiv);
+      chatHistory.scrollTop = chatHistory.scrollHeight;
+    }
+
+    chatForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const userMsg = chatInput.value.trim();
+      if (!userMsg || loading) return;
+      messages.push({ role: 'user', content: userMsg });
+      chatInput.value = '';
+      loading = true;
+      renderChat();
+      try {
+        const res = await fetch('https://heliantys-api.onrender.com/api/ai-chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages })
+        });
+        console.log('API response status:', res.status);
+        if (!res.ok) throw new Error('Erreur lors de la communication avec le guide.');
+        const data = await res.json();
+        console.log('API response data:', data);
+        if (!data.success || !data.data?.content) throw new Error('Erreur de réponse du guide.');
+        messages.push({ role: 'assistant', content: data.data.content });
+      } catch (err) {
+        console.error('API error:', err);
+        showError(err.message);
+      } finally {
+        loading = false;
+        renderChat();
+      }
+    });
+
+    // Initial greeting
+    window.onload = () => {
+      messages = [
+        { role: 'assistant', content: 'Bonjour ! Je suis votre guide personnel Heliantys. Posez-moi vos questions sur les produits, la santé, ou demandez une recette !' }
+      ];
+      renderChat();
+    };
+  </script>
+  <script src="../src/renderer/home.js"></script>
+</body>
+</html>

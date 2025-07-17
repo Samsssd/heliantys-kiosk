@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0" />
-  <title>Recette - Heliantys</title>
+  <title>Recettes - Heliantys</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css?family=Raleway:400,700&display=swap" rel="stylesheet">
   <style>
@@ -15,21 +15,27 @@
     .kiosk-header-btn { background: #17624a; color: #fff; border: none; border-radius: 20px; font-size: 1.1rem; font-family: 'Raleway', Arial, sans-serif; padding: 10px 22px; cursor: pointer; box-shadow: 0 2px 8px 0 rgba(23,98,74,0.10); transition: background 0.1s; min-width: 80px; display: flex; align-items: center; justify-content: center; }
     .kiosk-header-btn:active { background: #1ec98b; }
     .kiosk-header-btn.back { padding: 10px 18px; min-width: 0; }
-    .kiosk-header-btn.create { background: #1ec98b; color: #fff; margin-left: 12px; }
     .kiosk-header-spacer { width: 80px; }
-    .kiosk-scroll-area { flex: 1; width: 100%; display: flex; justify-content: center; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-    .kiosk-recipe-card { max-width: 540px; margin: 0 auto 0 auto; background: #fff; border-radius: 32px; box-shadow: 0 4px 32px 0 rgba(23,98,74,0.10); padding: 0 0 24px 0; display: flex; flex-direction: column; align-items: center; min-height: 600px; }
-    .kiosk-recipe-img { width: 100%; height: 220px; object-fit: cover; border-top-left-radius: 32px; border-top-right-radius: 32px; }
-    .kiosk-recipe-title { font-family: 'Raleway', Arial, sans-serif; font-size: 2rem; font-weight: 700; color: #17624a; margin: 24px 0 8px 0; text-align: center; }
-    .kiosk-recipe-desc { font-size: 1.1rem; color: #555; margin: 0 24px 18px 24px; text-align: center; }
-    .kiosk-recipe-section { width: 100%; margin-bottom: 18px; }
-    .kiosk-recipe-section h2 { font-size: 1.2rem; color: #17624a; font-weight: 700; margin: 0 0 8px 32px; }
-    .kiosk-ingredients-list { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 24px 0 24px; }
-    .kiosk-ingredient-chip { background: #e6f5ea; color: #17624a; border-radius: 16px; padding: 8px 16px; font-size: 1rem; font-family: 'Raleway', Arial, sans-serif; margin-bottom: 6px; }
-    .kiosk-steps-list { margin: 0 24px 0 24px; padding: 0; list-style: none; }
-    .kiosk-step-card { background: #f7f8fa; border-radius: 18px; margin-bottom: 10px; padding: 14px 18px; font-size: 1rem; color: #444; font-family: 'Raleway', Arial, sans-serif; display: flex; align-items: flex-start; }
-    .kiosk-step-num { background: #1ec98b; color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-right: 14px; font-size: 1rem; }
-    @media (max-width: 600px) { .kiosk-recipe-card { max-width: 98vw; } .kiosk-recipe-img { height: 140px; } .kiosk-header-inner { padding: 0 12px; height: 54px; } .kiosk-header-title { font-size: 1.1rem; } .kiosk-header-btn { font-size: 1rem; padding: 8px 12px; min-width: 60px; } .kiosk-header-spacer { width: 60px; } }
+    .filter-bar { width: 100vw; max-width: 700px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; align-items: center; background: #f7f8fa; padding: 18px 0 10px 0; position: sticky; top: 68px; z-index: 9; }
+    .filter-btn { background: #fff; color: #17624a; border: 2px solid #1ec98b; border-radius: 18px; font-size: 1.1rem; font-family: 'Raleway', Arial, sans-serif; padding: 10px 24px; cursor: pointer; box-shadow: 0 2px 8px 0 rgba(23,98,74,0.06); transition: background 0.1s, color 0.1s; }
+    .filter-btn.active, .filter-btn:active { background: #1ec98b; color: #fff; }
+    .recipes-main { flex: 1; width: 100vw; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; background: #f7f8fa; min-height: 0; }
+    .recipes-list { width: 100vw; max-width: 700px; margin: 0 auto; padding: 0 0 24px 0; overflow-y: auto; display: flex; flex-direction: column; gap: 28px; min-height: 0; }
+    .recipe-card { background: #fff; border-radius: 28px; box-shadow: 0 4px 24px 0 rgba(23,98,74,0.10); display: flex; flex-direction: row; align-items: center; width: 100%; min-height: 160px; padding: 18px 18px 18px 12px; box-sizing: border-box; cursor: pointer; transition: background 0.15s; gap: 18px; }
+    .recipe-card:active { background: #e6f5ea; }
+    .recipe-img { width: 110px; height: 110px; object-fit: cover; border-radius: 18px; flex-shrink: 0; background: #f7f8fa; }
+    .recipe-content { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+    .recipe-title { font-size: 1.3rem; font-weight: 700; color: #17624a; margin: 0 0 8px 0; font-family: 'Raleway', Arial, sans-serif; }
+    .recipe-desc { font-size: 1.05rem; color: #555; margin-bottom: 10px; font-family: 'Raleway', Arial, sans-serif; }
+    .recipe-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+    .recipe-tag { background: #e6f5ea; color: #17624a; border-radius: 12px; padding: 6px 14px; font-size: 0.98rem; font-family: 'Raleway', Arial, sans-serif; }
+    .recipe-view-btn { background: #1ec98b; color: #fff; border: none; border-radius: 16px; font-size: 1.1rem; font-family: 'Raleway', Arial, sans-serif; padding: 12px 28px; cursor: pointer; box-shadow: 0 2px 8px 0 rgba(23,98,74,0.10); margin-left: 12px; transition: background 0.1s; }
+    .recipe-view-btn:active { background: #17624a; }
+    .recipes-loading, .recipes-error { color: #888; font-size: 1.2rem; text-align: center; margin: 32px 0; }
+    .recipes-error { color: #dc2626; }
+    .recipes-loadmore-btn { background: #17624a; color: #fff; border: none; border-radius: 18px; font-size: 1.1rem; font-family: 'Raleway', Arial, sans-serif; padding: 16px 40px; cursor: pointer; box-shadow: 0 2px 8px 0 rgba(23,98,74,0.10); margin: 24px auto 0 auto; display: block; transition: background 0.1s; }
+    .recipes-loadmore-btn:active { background: #1ec98b; }
+    @media (max-width: 700px) { .kiosk-header-inner, .filter-bar, .recipes-list { max-width: 98vw; } .kiosk-header-inner { padding: 0 12px; height: 54px; } .kiosk-header-title { font-size: 1.1rem; } .kiosk-header-btn { font-size: 1rem; padding: 8px 12px; min-width: 60px; } .filter-btn { font-size: 1rem; padding: 8px 10px; } .recipe-card { min-height: 110px; padding: 10px 10px 10px 6px; gap: 8px; } .recipe-img { width: 70px; height: 70px; } .recipe-view-btn { font-size: 1rem; padding: 8px 16px; } }
   </style>
 </head>
 <body>
@@ -37,40 +43,169 @@
     <div class="kiosk-header">
       <div class="kiosk-header-inner">
         <button class="kiosk-header-btn back" onclick="navigate('index.html')">&larr;</button>
-        <div class="kiosk-header-title">Recette</div>
-        <button class="kiosk-header-btn create" onclick="alert('Créer une recette')">Créer</button>
+        <div class="kiosk-header-title">Recettes</div>
+        <div class="kiosk-header-spacer"></div>
       </div>
     </div>
-    <div class="kiosk-scroll-area">
-      <div class="kiosk-recipe-card">
-        <img src="https://images.unsplash.com/photo-1464305795204-6f5bbfc7fb81?auto=format&fit=crop&w=800&q=80" alt="Recette" class="kiosk-recipe-img" />
-        <h1 class="kiosk-recipe-title">Salade fraîcheur estivale</h1>
-        <p class="kiosk-recipe-desc">Une salade légère et rafraîchissante, parfaite pour l'été. Riche en vitamines et saveurs naturelles.</p>
-        <div class="kiosk-recipe-section">
-          <h2>Ingrédients</h2>
-          <div class="kiosk-ingredients-list">
-            <span class="kiosk-ingredient-chip">1 concombre</span>
-            <span class="kiosk-ingredient-chip">2 tomates</span>
-            <span class="kiosk-ingredient-chip">100g de feta</span>
-            <span class="kiosk-ingredient-chip">Quelques feuilles de menthe</span>
-            <span class="kiosk-ingredient-chip">Huile d'olive</span>
-            <span class="kiosk-ingredient-chip">Sel</span>
-            <span class="kiosk-ingredient-chip">Poivre</span>
-          </div>
-        </div>
-        <div class="kiosk-recipe-section">
-          <h2>Étapes</h2>
-          <ul class="kiosk-steps-list">
-            <li class="kiosk-step-card"><span class="kiosk-step-num">1</span>Laver et couper le concombre et les tomates.</li>
-            <li class="kiosk-step-card"><span class="kiosk-step-num">2</span>Émietter la feta et ciseler la menthe.</li>
-            <li class="kiosk-step-card"><span class="kiosk-step-num">3</span>Mélanger tous les ingrédients dans un saladier.</li>
-            <li class="kiosk-step-card"><span class="kiosk-step-num">4</span>Assaisonner avec l'huile d'olive, le sel et le poivre.</li>
-            <li class="kiosk-step-card"><span class="kiosk-step-num">5</span>Servir frais.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
+    <div class="filter-bar" id="filter-bar"></div>
+    <main class="recipes-main">
+      <div id="recipes-list" class="recipes-list"></div>
+      <button id="load-more-btn" class="recipes-loadmore-btn" style="display:none">Voir plus</button>
+      <div id="recipes-loading" class="recipes-loading" style="display:none">Chargement...</div>
+      <div id="recipes-error" class="recipes-error" style="display:none"></div>
+    </main>
   </div>
+  <script>
+    // --- Config ---
+    const API_BASE = 'https://heliantys-api.onrender.com/api/recipes';
+    const FILTERS = {
+      difficulty: [ 'Facile', 'Moyen', 'Difficile' ],
+      tags: [ 'Petit Déjeuner', 'Déjeuner', 'Goûter', 'Diner', 'Dessert' ],
+      sort: [ { label: 'Populaires', value: 'popular:desc' }, { label: 'Récents', value: 'createdAt:desc' } ]
+    };
+    // --- State ---
+    let recipes = [];
+    let page = 1;
+    let totalPages = 1;
+    let loading = false;
+    let error = '';
+    let selected = { difficulty: null, tag: null, sort: FILTERS.sort[0].value };
+
+    // --- DOM ---
+    const filterBar = document.getElementById('filter-bar');
+    const recipesList = document.getElementById('recipes-list');
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    const loadingDiv = document.getElementById('recipes-loading');
+    const errorDiv = document.getElementById('recipes-error');
+
+    // --- Render Filters ---
+    function renderFilters() {
+      filterBar.innerHTML = '';
+      // Difficulty
+      FILTERS.difficulty.forEach(diff => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-btn' + (selected.difficulty === diff ? ' active' : '');
+        btn.textContent = diff;
+        btn.onclick = () => { selected.difficulty = selected.difficulty === diff ? null : diff; page = 1; fetchRecipes(true); };
+        filterBar.appendChild(btn);
+      });
+      // Tags
+      FILTERS.tags.forEach(tag => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-btn' + (selected.tag === tag ? ' active' : '');
+        btn.textContent = tag;
+        btn.onclick = () => { selected.tag = selected.tag === tag ? null : tag; page = 1; fetchRecipes(true); };
+        filterBar.appendChild(btn);
+      });
+      // Sort
+      FILTERS.sort.forEach(sortOpt => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-btn' + (selected.sort === sortOpt.value ? ' active' : '');
+        btn.textContent = sortOpt.label;
+        btn.onclick = () => { selected.sort = sortOpt.value; page = 1; fetchRecipes(true); };
+        filterBar.appendChild(btn);
+      });
+    }
+
+    // --- Render Recipes ---
+    function renderRecipes() {
+      recipesList.innerHTML = '';
+      recipes.forEach(recipe => {
+        const card = document.createElement('div');
+        card.className = 'recipe-card';
+        card.onclick = () => viewRecipe(recipe._id);
+        // Image
+        const img = document.createElement('img');
+        img.className = 'recipe-img';
+        img.src = recipe.image || 'https://via.placeholder.com/200x200?text=Recette';
+        img.alt = recipe.title;
+        card.appendChild(img);
+        // Content
+        const content = document.createElement('div');
+        content.className = 'recipe-content';
+        // Title
+        const title = document.createElement('div');
+        title.className = 'recipe-title';
+        title.textContent = recipe.title;
+        content.appendChild(title);
+        // Desc
+        if (recipe.description) {
+          const desc = document.createElement('div');
+          desc.className = 'recipe-desc';
+          desc.textContent = recipe.description;
+          content.appendChild(desc);
+        }
+        // Tags
+        if (recipe.tags && recipe.tags.length) {
+          const tagsDiv = document.createElement('div');
+          tagsDiv.className = 'recipe-tags';
+          recipe.tags.forEach(tag => {
+            const tagSpan = document.createElement('span');
+            tagSpan.className = 'recipe-tag';
+            tagSpan.textContent = tag;
+            tagsDiv.appendChild(tagSpan);
+          });
+          content.appendChild(tagsDiv);
+        }
+        card.appendChild(content);
+        // View button
+        const viewBtn = document.createElement('button');
+        viewBtn.className = 'recipe-view-btn';
+        viewBtn.textContent = 'Voir';
+        viewBtn.onclick = (e) => { e.stopPropagation(); viewRecipe(recipe._id); };
+        card.appendChild(viewBtn);
+        recipesList.appendChild(card);
+      });
+    }
+
+    // --- Fetch Recipes ---
+    async function fetchRecipes(reset = false) {
+      loading = true;
+      error = '';
+      loadingDiv.style.display = '';
+      errorDiv.style.display = 'none';
+      if (reset) recipes = [];
+      renderRecipes();
+      let url = `${API_BASE}?page=${page}&limit=10&sort=${selected.sort}`;
+      if (selected.difficulty) url += `&difficulty=${encodeURIComponent(selected.difficulty)}`;
+      if (selected.tag) url += `&tags=${encodeURIComponent(selected.tag)}`;
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('Erreur lors du chargement des recettes.');
+        const data = await res.json();
+        if (!data.success || !Array.isArray(data.data)) throw new Error('Erreur de réponse de l\'API.');
+        if (reset) recipes = data.data;
+        else recipes = recipes.concat(data.data);
+        totalPages = data.totalPages || 1;
+        renderRecipes();
+        loadMoreBtn.style.display = page < totalPages ? '' : 'none';
+      } catch (err) {
+        error = err.message;
+        errorDiv.textContent = error;
+        errorDiv.style.display = '';
+      } finally {
+        loading = false;
+        loadingDiv.style.display = 'none';
+      }
+    }
+
+    // --- View Recipe (navigate to detail page) ---
+    function viewRecipe(id) {
+      window.location.href = `recette.html?id=${id}`;
+    }
+
+    // --- Load More ---
+    loadMoreBtn.onclick = () => {
+      if (page < totalPages && !loading) {
+        page++;
+        fetchRecipes();
+      }
+    };
+
+    // --- Init ---
+    renderFilters();
+    fetchRecipes(true);
+  </script>
   <script src="../src/renderer/home.js"></script>
 </body>
 </html>

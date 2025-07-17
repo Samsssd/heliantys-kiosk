@@ -12,8 +12,8 @@ const { app, BrowserWindow } = require('electron');
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 768,          // Portrait width
-    height: 1024,        // Portrait height
+    width: 1080,          // Portrait width (vertical)
+    height: 1920,         // Portrait height (vertical)
     resizable: true,     // Allow resizing
     fullscreen: false,   // No fullscreen
     kiosk: false,        // No kiosk mode
