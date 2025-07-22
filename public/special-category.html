@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0" />
+  <title>Catégorie - Heliantys</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,700&display=swap" rel="stylesheet">
+  <style>
+    html, body { height: 100%; margin: 0; padding: 0; }
+    .kiosk-container { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; height: 100vh; width: 100vw; box-sizing: border-box; }
+    
+    /* Header Styles */
+    .kiosk-header { position: sticky; top: 0; z-index: 10; width: 100vw; background: #fff; box-shadow: 0 2px 12px 0 rgba(23,98,74,0.06); }
+    .kiosk-header-inner { display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 68px; }
+    .kiosk-header-title {
+      flex: 1;
+      text-align: center;
+      font-family: 'Raleway', Arial, sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #17624a;
+      letter-spacing: 1px;
+    }
+    .kiosk-header-btn { background: #17624a; color: #fff; border: none; border-radius: 20px; font-size: 1.1rem; font-family: 'Raleway', Arial, sans-serif; padding: 10px 22px; cursor: pointer; box-shadow: 0 2px 8px 0 rgba(23,98,74,0.10); transition: background 0.1s; display: flex; align-items: center; justify-content: center; }
+    .kiosk-header-btn:active { background: #1ec98b; }
+    .kiosk-header-btn.back {
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      min-width: 0;
+      border-radius: 50%;
+    }
+    .kiosk-header-spacer { width: 44px; }
+
+    /* Main Content Styles */
+    .recipes-main { flex: 1; width: 100vw; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; background: #f7f8fa; min-height: 0; }
+    .recipes-list {
+      width: 100vw;
+      max-width: 700px;
+      margin: 28px auto 0;
+      padding: 0 18px 24px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      min-height: 0;
+      box-sizing: border-box;
+    }
+
+    /* Recipe Card Styles */
+    .recipe-card {
+      background: #fff;
+      border-radius: 28px;
+      box-shadow: 0 4px 24px 0 rgba(23,98,74,0.10);
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+      padding: 0;
+      box-sizing: border-box;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .recipe-card:active { background: #e6f5ea; }
+    .recipe-img-wrapper {
+      width: 100%;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      border-radius: 28px;
+      background: #f7f8fa;
+      position: relative;
+      display: block;
+    }
+    .recipe-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .recipe-title-on-image {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 40px 18px 18px;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 700;
+      font-family: 'Raleway', Arial, sans-serif;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+      background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, transparent 100%);
+      border-bottom-left-radius: 28px;
+      border-bottom-right-radius: 28px;
+    }
+    .recipe-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 12px 18px;
+    }
+    .recipe-desc { font-size: 0.9rem; color: #555; margin-bottom: 8px; font-family: 'Raleway', Arial, sans-serif; }
+    .recipe-meta-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+    .recipe-meta-item {
+      flex: 1;
+      min-width: 0;
+      background: #f0fdf4;
+      color: #166534;
+      border-radius: 12px;
+      padding: 10px 8px;
+      font-size: 0.9rem;
+      font-family: 'Raleway', Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      overflow: hidden;
+    }
+    .recipe-meta-text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex-shrink: 1;
+    }
+    .recipe-meta-difficulty { font-weight: 700; }
+    
+    /* Loading and Error Styles */
+    .recipes-loading {
+      width: 40px;
+      height: 40px;
+      border: 5px solid #f3f4f6;
+      border-top-color: #1ec98b;
+      border-radius: 50%;
+      margin: 48px auto;
+      animation: spin 1s linear infinite;
+    }
+    .recipes-error { color: #dc2626; font-size: 1.2rem; text-align: center; margin: 32px 0; }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Media Queries */
+    @media (max-width: 700px) {
+      .kiosk-header-inner, .recipes-list { max-width: 100%; }
+      .kiosk-header-inner { padding: 0 12px; height: 54px; }
+      .kiosk-header-title { font-size: 1.1rem; }
+      .kiosk-header-btn { font-size: 1rem; padding: 8px 12px; min-width: 60px; }
+      .recipe-card { border-radius: 14px; }
+      .recipe-img-wrapper { border-radius: 14px; }
+      .recipe-content { padding: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="kiosk-container">
+    <div class="kiosk-header">
+      <div class="kiosk-header-inner">
+        <button class="kiosk-header-btn back" onclick="history.back()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <div class="kiosk-header-title" id="category-title">Catégorie</div>
+        <div class="kiosk-header-spacer"></div>
+      </div>
+    </div>
+    <main class="recipes-main">
+      <div id="recipes-list" class="recipes-list"></div>
+      <div id="recipes-loading" class="recipes-loading" style="display:none"></div>
+      <div id="recipes-error" class="recipes-error" style="display:none"></div>
+    </main>
+  </div>
+  <script>
+    // --- Helpers ---
+    function getQueryParam(name) {
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name);
+    }
+    function escapeHTML(str) {
+      return String(str).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','\'':'&#39;','"':'&quot;'}[c]));
+    }
+    // --- State ---
+    const API_BASE = 'https://heliantys-api.onrender.com/api/recipes';
+    const category = getQueryParam('category');
+    const categoryTitle = getQueryParam('title');
+    let recipes = [];
+    let loading = false;
+    let error = '';
+    // --- DOM ---
+    const recipesList = document.getElementById('recipes-list');
+    const loadingDiv = document.getElementById('recipes-loading');
+    const errorDiv = document.getElementById('recipes-error');
+    const categoryTitleDiv = document.getElementById('category-title');
+    // --- Set Title ---
+    if (categoryTitle) categoryTitleDiv.textContent = categoryTitle;
+    
+    // --- Render Recipes ---
+    function renderRecipes() {
+      recipesList.innerHTML = '';
+      recipes.forEach(recipe => {
+        const card = document.createElement('div');
+        card.className = 'recipe-card';
+        card.onclick = () => viewRecipe(recipe._id);
+        
+        // Image wrapper for 16:9 aspect ratio
+        const imgWrapper = document.createElement('div');
+        imgWrapper.className = 'recipe-img-wrapper';
+        const img = document.createElement('img');
+        img.className = 'recipe-img';
+        img.src = recipe.image || 'https://via.placeholder.com/200x200?text=Recette';
+        img.alt = recipe.title;
+        imgWrapper.appendChild(img);
+        
+        const titleOnImage = document.createElement('div');
+        titleOnImage.className = 'recipe-title-on-image';
+        titleOnImage.textContent = recipe.title;
+        imgWrapper.appendChild(titleOnImage);
+
+        card.appendChild(imgWrapper);
+        
+        // Content
+        const content = document.createElement('div');
+        content.className = 'recipe-content';
+        
+        // Desc
+        if (recipe.description) {
+          const desc = document.createElement('div');
+          desc.className = 'recipe-desc';
+          desc.textContent = recipe.description;
+          content.appendChild(desc);
+        }
+        
+        // Meta info: difficulty, duration, servings
+        const metaRow = document.createElement('div');
+        metaRow.className = 'recipe-meta-row';
+        
+        // Duration
+        if (recipe.duration) {
+          const durSpan = document.createElement('span');
+          durSpan.className = 'recipe-meta-item';
+          const durationText = recipe.duration.split('(')[0].trim();
+          durSpan.innerHTML = `<svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='flex-shrink:0'><circle cx='12' cy='12' r='10'/><polyline points='12 6 12 12 16 14'/></svg><span class="recipe-meta-text">${durationText}</span>`;
+          metaRow.appendChild(durSpan);
+        }
+
+        // Servings (using a placeholder)
+        if (recipe.servings) {
+          const servSpan = document.createElement('span');
+          servSpan.className = 'recipe-meta-item';
+          servSpan.innerHTML = `<svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='flex-shrink:0'><path d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'/><circle cx='9' cy='7' r='4'/><path d='M23 21v-2a4 4 0 0 0-3-3.87'/><path d='M16 3.13a4 4 0 0 1 0 7.75'/></svg><span class="recipe-meta-text">${recipe.servings} portions</span>`;
+          metaRow.appendChild(servSpan);
+        }
+
+        // Difficulty
+        if (recipe.difficulty) {
+          const diffSpan = document.createElement('span');
+          diffSpan.className = 'recipe-meta-item recipe-meta-difficulty';
+          diffSpan.innerHTML = `<span class="recipe-meta-text">${recipe.difficulty}</span>`;
+          metaRow.appendChild(diffSpan);
+        }
+        
+        if (metaRow.childNodes.length > 0) content.appendChild(metaRow);
+        
+        card.appendChild(content);
+        recipesList.appendChild(card);
+      });
+    }
+
+    // --- Fetch Recipes ---
+    async function fetchRecipes() {
+      if (!category) return;
+      loading = true;
+      error = '';
+      loadingDiv.style.display = '';
+      errorDiv.style.display = 'none';
+      recipes = [];
+      renderRecipes();
+      let url = `${API_BASE}?tags=${encodeURIComponent(category)}&limit=30`;
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('Erreur lors du chargement des recettes.');
+        const data = await res.json();
+        if (!data.success || !Array.isArray(data.data)) throw new Error('Erreur de réponse de l\'API.');
+        recipes = data.data;
+        // Add dummy servings data
+        recipes.forEach(r => { if(!r.servings) r.servings = 4; });
+        renderRecipes();
+      } catch (err) {
+        error = err.message;
+        errorDiv.textContent = error;
+        errorDiv.style.display = '';
+      } finally {
+        loading = false;
+        loadingDiv.style.display = 'none';
+      }
+    }
+    // --- View Recipe (navigate to detail page) ---
+    function viewRecipe(id) {
+      window.location.href = `recette.html?id=${id}`;
+    }
+    // --- Init ---
+    fetchRecipes();
+  </script>
+  <script src="../src/renderer/home.js"></script>
+</body>
+</html> 

@@ -19,7 +19,7 @@ function createWindow() {
     kiosk: false,        // No kiosk mode
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false
+      contextIsolation: false,
     }
   });
 

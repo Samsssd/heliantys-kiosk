@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0" />
+  <title>Recette - Heliantys</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <style>
+    html, body { height: 100%; margin: 0; padding: 0; }
+    .kiosk-container { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; height: 100vh; width: 100vw; box-sizing: border-box; }
+    .kiosk-header { position: sticky; top: 0; z-index: 10; width: 100vw; background: #fff; box-shadow: 0 2px 12px 0 rgba(23,98,74,0.06); }
+    .kiosk-header-inner { display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 68px; }
+    .kiosk-header-title {
+      flex: 1;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .kiosk-header-btn { background: #17624a; color: #fff; border: none; border-radius: 20px; font-size: 1.1rem; font-family: 'Raleway', Arial, sans-serif; padding: 10px 22px; cursor: pointer; box-shadow: 0 2px 8px 0 rgba(23,98,74,0.10); transition: background 0.1s; min-width: 80px; display: flex; align-items: center; justify-content: center; }
+    .kiosk-header-btn:active { background: #1ec98b; }
+    .kiosk-header-btn.back {
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      min-width: 0;
+      border-radius: 50%;
+    }
+    .kiosk-header-spacer { width: 44px; }
+    .recette-main { flex: 1 1 0%; width: 100vw; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; background: #f7f8fa; min-height: 0; overflow-y: auto; padding-bottom: 48px; }
+    .recette-card { max-width: 540px; margin: 32px 0; background: #fff; border-radius: 32px; box-shadow: 0 4px 32px 0 rgba(23,98,74,0.10); padding: 0 0 32px 0; display: flex; flex-direction: column; align-items: stretch; }
+    .recette-img-wrapper {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      background: #f7f8fa;
+      background-size: cover;
+      background-position: center;
+      border-top-left-radius: 32px;
+      border-top-right-radius: 32px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .recette-title-on-image {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 40px 32px 24px;
+      color: white;
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Raleway', Arial, sans-serif;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+      background: linear-gradient(0deg, rgba(0,0,0,0.65) 0%, transparent 100%);
+    }
+    .recette-meta {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+      margin: 0 24px 12px;
+    }
+    .recette-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      font-family: 'Raleway', Arial, sans-serif;
+      font-weight: 600;
+      box-shadow: 0 2px 8px 0 rgba(23,98,74,0.08);
+      padding: 8px 16px;
+      background: #f7f8fa;
+      color: #17624a;
+      transition: background 0.2s, color 0.2s;
+    }
+    .recette-meta-item.duration {
+      background: #e0f7ec;
+      color: #17624a;
+    }
+    .recette-meta-item.portions {
+      background: #e6f0fa;
+      color: #1a3a6b;
+    }
+    .recette-meta-item.difficulty {
+      background: #f6f6f6;
+      color: #17624a;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+    .recette-meta-item svg {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      margin-right: 4px;
+    }
+    .recette-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 24px 8px; justify-content: center; }
+    .recette-tag { background: #e6f5ea; color: #17624a; border-radius: 12px; padding: 6px 14px; font-size: 0.98rem; font-family: 'Raleway', Arial, sans-serif; }
+    .recette-desc {
+      font-size: 1.15rem;
+      color: #555;
+      margin: 0 24px 18px 24px;
+      text-align: center;
+      font-family: 'Raleway', Arial, sans-serif;
+      background: #f7f8fa;
+      border-radius: 18px;
+      padding: 18px 20px;
+      box-shadow: 0 2px 8px 0 rgba(23,98,74,0.06);
+    }
+    .recette-section { width: 100%; margin-bottom: 18px; box-sizing: border-box; }
+    .recette-section h2 { font-size: 1.5rem; color: #17624a; font-weight: 800; margin: 0 0 12px 32px; }
+    .recette-ingredients-list { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 24px 0 24px; }
+    .recette-ingredient-chip { background: #e6f5ea; color: #17624a; border-radius: 16px; padding: 8px 16px; font-size: 1rem; font-family: 'Raleway', Arial, sans-serif; margin-bottom: 6px; }
+    .recette-steps-list { margin: 0 24px 0 24px; padding: 0; list-style: none; }
+    .recette-step-card { background: #f7f8fa; border-radius: 18px; margin-bottom: 10px; padding: 14px 18px; font-size: 1rem; color: #444; font-family: 'Raleway', Arial, sans-serif; display: flex; align-items: center; line-height: 1.5; }
+    .recette-step-num { background: #1ec98b; color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-right: 14px; font-size: 1rem; flex-shrink: 0; }
+    .recette-step-text { min-width: 0; }
+    .recette-nutrition { margin: 0 24px 18px 24px; background: #e6f5ea; border-radius: 18px; padding: 16px 18px; color: #17624a; font-size: 1.05rem; font-family: 'Raleway', Arial, sans-serif; }
+    .recette-loading {
+      width: 40px;
+      height: 40px;
+      border: 5px solid #f3f4f6;
+      border-top-color: #1ec98b;
+      border-radius: 50%;
+      margin: 48px auto;
+      animation: spin 1s linear infinite;
+    }
+    .recette-error { color: #dc2626; font-size: 1.2rem; text-align: center; margin: 32px 0; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Modal Styles */
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); z-index: 20; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+    .modal-backdrop.active { opacity: 1; pointer-events: all; }
+    .modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.95); background: #fff; border-radius: 24px; z-index: 21; width: 90vw; max-width: 480px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); padding: 32px; box-sizing: border-box; text-align: left; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; pointer-events: none; }
+    .modal.active { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: all; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .modal-title { font-size: 1.8rem; font-weight: 700; color: #17624a; font-family: 'Raleway', Arial, sans-serif; }
+    .modal-close-btn { background: #f1f1f1; border: none; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; color: #888; display: flex; align-items: center; justify-content: center; transition: background 0.2s, color 0.2s; }
+    .modal-close-btn:hover { background: #e0e0e0; color: #333; }
+    .modal-content p { font-size: 1.1rem; line-height: 1.6; color: #555; font-family: 'Raleway', Arial, sans-serif; margin: 0 0 12px 0; }
+
+    /* Save Button & QR Code Styles */
+    .recette-save-button { display: flex; align-items: center; justify-content: center; gap: 12px; background: #17624a; color: #fff; border: none; border-radius: 18px; font-size: 1.15rem; font-family: 'Raleway', Arial, sans-serif; font-weight: 700; padding: 16px 24px; cursor: pointer; transition: background 0.2s; margin: 24px 32px 0; }
+    .recette-save-button:hover { background: #1ec98b; }
+    .qr-code-container { display: flex; justify-content: center; align-items: center; margin-top: 20px; padding: 16px; background: #f7f8fa; border-radius: 16px; }
+  </style>
+</head>
+<body>
+  <div class="kiosk-container">
+    <div class="kiosk-header">
+      <div class="kiosk-header-inner">
+        <button class="kiosk-header-btn back" onclick="navigate('recettes.html')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <div class="kiosk-header-title">
+          <img src="assets/heliantys-recipe.webp" alt="Recette" style="height: 40px; object-fit: contain;">
+        </div>
+        <div class="kiosk-header-spacer"></div>
+      </div>
+    </div>
+    <main class="recette-main">
+      <div id="recette-loading" class="recette-loading"></div>
+      <div id="recette-error" class="recette-error" style="display:none"></div>
+      <div id="recette-card" class="recette-card" style="display:none"></div>
+    </main>
+
+    <!-- Save Recipe Modal -->
+    <div class="modal-backdrop" id="save-modal-backdrop"></div>
+    <div class="modal" id="save-modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Sauvegarder la Recette</h2>
+        <button class="modal-close-btn" onclick="closeSaveModal()">&times;</button>
+      </div>
+      <div class="modal-content">
+        <p>Scannez ce QR code pour retrouver cette recette sur notre site ou notre application et l'ajouter à vos menus personnalisés.</p>
+        <div class="qr-code-container" id="qr-code"></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // --- Helpers ---
+    function getRecipeId() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('id');
+    }
+    function escapeHTML(str) {
+      if (typeof str !== 'string') return '';
+      return str.replace(/[&<>"']/g, function(tag) {
+        const charsToReplace = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+        return charsToReplace[tag] || tag;
+      });
+    }
+    // --- Render ---
+    function renderRecipe(recipe) {
+      const card = document.getElementById('recette-card');
+      card.innerHTML = '';
+      // Image and Title
+      const imgWrapper = document.createElement('div');
+      imgWrapper.className = 'recette-img-wrapper';
+      imgWrapper.style.backgroundImage = `url('${recipe.image || 'https://via.placeholder.com/400x250?text=Recette'}')`;
+      
+      const titleOnImage = document.createElement('div');
+      titleOnImage.className = 'recette-title-on-image';
+      titleOnImage.textContent = recipe.title;
+      imgWrapper.appendChild(titleOnImage);
+      card.appendChild(imgWrapper);
+      // Meta
+      const meta = document.createElement('div');
+      meta.className = 'recette-meta';
+      if (recipe.difficulty) meta.innerHTML += `<span class='recette-meta-item difficulty'>${escapeHTML(recipe.difficulty)}</span>`;
+      if (recipe.duration) meta.innerHTML += `<span class='recette-meta-item duration'><svg viewBox='0 0 24 24' fill='none' stroke='#17624a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><polyline points='12 6 12 12 16 14'/></svg> <span>${escapeHTML(recipe.duration.split('(')[0].trim().substring(0, 7))}</span></span>`;
+      if (recipe.servings) meta.innerHTML += `<span class='recette-meta-item portions'><svg viewBox='0 0 24 24' fill='none' stroke='#1a3a6b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='7' r='4'/><path d='M5.5 21a7 7 0 0 1 13 0'/></svg> <span>${escapeHTML(String(recipe.servings))} pers.</span></span>`;
+      card.appendChild(meta);
+      // Desc
+      if (recipe.description) {
+        const desc = document.createElement('div');
+        desc.className = 'recette-desc';
+        desc.textContent = recipe.description;
+        card.appendChild(desc);
+      }
+      // Ingredients
+      if (recipe.ingredients && recipe.ingredients.length) {
+        const section = document.createElement('div');
+        section.className = 'recette-section';
+        section.innerHTML = '<h2>Ingrédients</h2>';
+        const list = document.createElement('div');
+        list.className = 'recette-ingredients-list';
+        recipe.ingredients.forEach(ing => {
+          const chip = document.createElement('span');
+          chip.className = 'recette-ingredient-chip';
+          if (typeof ing === 'string') {
+            chip.textContent = ing;
+          } else if (ing && typeof ing === 'object') {
+            chip.textContent = (ing.name || '') + (ing.quantity ? ` (${ing.quantity})` : '');
+          } else {
+            chip.textContent = '';
+          }
+          list.appendChild(chip);
+        });
+        section.appendChild(list);
+        card.appendChild(section);
+      }
+      // Steps
+      if (recipe.steps && recipe.steps.length) {
+        const section = document.createElement('div');
+        section.className = 'recette-section';
+        section.innerHTML = '<h2>Étapes</h2>';
+        const list = document.createElement('ul');
+        list.className = 'recette-steps-list';
+        recipe.steps.forEach((step, i) => {
+          const li = document.createElement('li');
+          li.className = 'recette-step-card';
+          li.innerHTML = `<span class='recette-step-num'>${i+1}</span><span class="recette-step-text">${escapeHTML(step)}</span>`;
+          list.appendChild(li);
+        });
+        section.appendChild(list);
+        card.appendChild(section);
+      }
+      // Nutrition
+      if (recipe.nutrition) {
+        const section = document.createElement('div');
+        section.className = 'recette-section';
+        section.innerHTML = '<h2>Nutrition</h2>';
+        const nutri = document.createElement('div');
+        nutri.className = 'recette-nutrition';
+        nutri.textContent = recipe.nutrition;
+        section.appendChild(nutri);
+        card.appendChild(section);
+      }
+
+      // Save button
+      const saveButton = document.createElement('button');
+      saveButton.className = 'recette-save-button';
+      saveButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> <span>Sauvegarder la recette</span>`;
+      saveButton.onclick = openSaveModal;
+      card.appendChild(saveButton);
+    }
+    // --- Fetch and Init ---
+    async function fetchRecipe() {
+      const id = getRecipeId();
+      if (!id) {
+        document.getElementById('recette-loading').style.display = 'none';
+        const err = document.getElementById('recette-error');
+        err.textContent = 'Aucune recette sélectionnée.';
+        err.style.display = '';
+        return;
+      }
+      try {
+        const res = await fetch(`https://heliantys-api.onrender.com/api/recipes/${id}`);
+        if (!res.ok) throw new Error('Erreur lors du chargement de la recette.');
+        const data = await res.json();
+        if (!data.success || !data.data) throw new Error('Erreur de réponse de l\'API.');
+        document.getElementById('recette-loading').style.display = 'none';
+        document.getElementById('recette-card').style.display = '';
+        renderRecipe(data.data);
+      } catch (err) {
+        document.getElementById('recette-loading').style.display = 'none';
+        const errDiv = document.getElementById('recette-error');
+        errDiv.textContent = err.message;
+        errDiv.style.display = '';
+      }
+    }
+
+    // --- Modal --- 
+    const saveModalBackdrop = document.getElementById('save-modal-backdrop');
+    const saveModal = document.getElementById('save-modal');
+    const qrCodeContainer = document.getElementById('qr-code');
+    let qrcode = null;
+
+    function openSaveModal() {
+      const recipeId = getRecipeId();
+      if (!recipeId) return;
+
+      const url = `https://www.laboratoire-heliantys.com/recipe/${recipeId}`;
+      
+      qrCodeContainer.innerHTML = '';
+      qrcode = new QRCode(qrCodeContainer, {
+        text: url,
+        width: 200,
+        height: 200,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+      });
+
+      saveModalBackdrop.classList.add('active');
+      saveModal.classList.add('active');
+    }
+
+    function closeSaveModal() {
+      saveModalBackdrop.classList.remove('active');
+      saveModal.classList.remove('active');
+    }
+
+    saveModalBackdrop.addEventListener('click', closeSaveModal);
+
+    fetchRecipe();
+  </script>
+  <script src="../src/renderer/home.js"></script>
+</body>
+</html>

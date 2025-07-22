@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0" />
+  <title>Détails du produit - Heliantys</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    html, body { height: 100%; margin: 0; padding: 0; }
+    body { font-family: 'Raleway', sans-serif; background-color: #f8fafc; }
+    .kiosk-container { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; height: 100vh; width: 100vw; box-sizing: border-box; }
+    .kiosk-header { position: sticky; top: 0; z-index: 10; width: 100vw; background: #fff; box-shadow: 0 2px 12px 0 rgba(23,98,74,0.06); }
+    .kiosk-header-inner { display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 68px; }
+    .kiosk-header-title {
+      flex: 1;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: 'Raleway', Arial, sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #17624a;
+      letter-spacing: 1px;
+    }
+    .kiosk-header-btn { background: #17624a; color: #fff; border: none; font-size: 1.1rem; font-family: 'Raleway', Arial, sans-serif; padding: 10px 22px; cursor: pointer; box-shadow: 0 2px 8px 0 rgba(23,98,74,0.10); transition: background 0.1s; min-width: 80px; display: flex; align-items: center; justify-content: center; }
+    .kiosk-header-btn.back {
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      min-width: 0;
+      border-radius: 50%;
+    }
+    .kiosk-header-spacer { width: 44px; }
+    .product-details-main { flex: 1; width: 100%; display: flex; flex-direction: column; align-items: center; overflow-y: auto; padding: 24px 16px; box-sizing: border-box; }
+    .product-card { background: #fff; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.07); width: 100%; max-width: 600px; overflow: hidden; }
+    .product-header { padding: 24px; text-align: center; }
+    .product-img { width: 160px; height: 160px; object-fit: contain; border-radius: 16px; background-color: #f1f5f9; margin: 0 auto 20px auto; display: block;}
+    .product-brand { color: #64748b; font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
+    .product-title { color: #1e293b; font-weight: 700; font-size: 1.75rem; margin-bottom: 8px; }
+    .product-description { color: #475569; font-size: 1rem; margin-bottom: 16px; }
+    .product-content { padding: 0 24px 24px 24px; }
+    .product-section { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 16px; margin-bottom: 16px; }
+    .product-section-title { font-size: 1.125rem; font-weight: 700; color: #1e293b; margin-bottom: 12px; }
+    .product-section-content { color: #475569; font-size: 0.95rem; line-height: 1.5; }
+    .product-section-content ul { list-style-position: inside; padding-left: 0; }
+    .product-section-content li { margin-bottom: 8px; display: flex; align-items: flex-start; }
+    .product-section-content li::before { content: '✓'; color: #10b981; margin-right: 10px; font-weight: bold; }
+    .scores-container { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+    .score-badge { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 9999px; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; }
+    .nutriscore-a { background-color: #038141; color: white; } .nutriscore-b { background-color: #85bb2f; color: white; } .nutriscore-c { background-color: #fecb02; color: #333; } .nutriscore-d { background-color: #ee8100; color: white; } .nutriscore-e { background-color: #e63e11; color: white; }
+    .ecoscore-a { background-color: #1e8f4e; color: white; } .ecoscore-b { background-color: #7fbc59; color: white; } .ecoscore-c { background-color: #fddc59; color: #333; } .ecoscore-d { background-color: #f07d32; color: white; } .ecoscore-e { background-color: #e43e3a; color: white; }
+    .nova-1 { background-color: #00a064; color: white; } .nova-2 { background-color: #a8d93a; color: #333; } .nova-3 { background-color: #f7a700; color: #333; } .nova-4 { background-color: #e0003d; color: white; }
+    .nutriment-table-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e2e8f0; }
+    .nutriment-table-row:last-child { border-bottom: none; }
+    .nutriment-label.sub-item { padding-left: 16px; }
+    .nutriment-value { font-weight: 700; }
+    .product-error { color: #dc2626; font-size: 1.2rem; background: #fff3f3; border-radius: 16px; padding: 18px 12px; text-align: center; }
+    .product-loading { color: #17624a; font-size: 1.2rem; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="kiosk-container">
+    <div class="kiosk-header">
+      <div class="kiosk-header-inner">
+        <button class="kiosk-header-btn back" onclick="history.back()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <div class="kiosk-header-title">
+          <img src="assets/heliantys-scan.webp" alt="Produit" style="height: 40px; object-fit: contain;">
+          <span>Détails Produit</span>
+        </div>
+        <div class="kiosk-header-spacer"></div>
+      </div>
+    </div>
+    <main class="product-details-main">
+      <div id="product-details-container">
+      </div>
+    </main>
+  </div>
+  <script>
+    // --- Helpers ---
+    function getQueryParam(name) {
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name);
+    }
+    function escapeHTML(str) {
+      return String(str).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','\'':'&#39;','"':'&quot;'}[c]));
+    }
+    // --- Product Fetch Logic ---
+    const API_BASE = 'https://heliantys-api.onrender.com/api/supplements';
+    const barcode = getQueryParam('barcode');
+    console.log('Barcode loaded:', barcode);
+    const detailsDiv = document.getElementById('product-details-container');
+
+    function showLoading() {
+      detailsDiv.innerHTML = '<div class="product-loading">Recherche du produit...</div>';
+    }
+    function showError(msg) {
+      detailsDiv.innerHTML = `<div class="product-error">${escapeHTML(msg)}</div>`;
+    }
+    function showProduct(product, isOpenFoodFacts) {
+      const p = product;
+      const imageUrl = p.image_url || 'https://via.placeholder.com/300';
+
+      let contentHtml = '';
+
+      if (isOpenFoodFacts) {
+        // --- OPEN FOOD FACTS PRODUCT --- 
+        contentHtml = `
+          <div class="scores-container">
+            ${p.nutriscore ? `<div class="score-badge nutriscore-${p.nutriscore.toLowerCase()}">Nutri-Score ${p.nutriscore.toUpperCase()}</div>` : ''}
+            ${p.ecoscore ? `<div class="score-badge ecoscore-${p.ecoscore.toLowerCase()}">Eco-Score ${p.ecoscore.toUpperCase()}</div>` : ''}
+            ${p.nova_group ? `<div class="score-badge nova-${p.nova_group}">NOVA ${p.nova_group}</div>` : ''}
+          </div>
+          ${p.ingredients ? `<div class="product-section"><h3 class="product-section-title">Ingrédients</h3><p class="product-section-content">${escapeHTML(p.ingredients)}</p></div>` : ''}
+          ${p.nutriments && Object.keys(p.nutriments).length > 0 ? `<div class="product-section"><h3 class="product-section-title">Repères nutritionnels</h3><div class="product-section-content">${renderNutriments(p.nutriments)}</div></div>` : ''}
+        `;
+      } else {
+        // --- YOUR API PRODUCT --- 
+        contentHtml = `
+          ${p.benefits && p.benefits.length > 0 ? `<div class="product-section"><h3 class="product-section-title">Bénéfices</h3><div class="product-section-content"><ul>${p.benefits.map(b => `<li>${escapeHTML(b)}</li>`).join('')}</ul></div></div>` : ''}
+          ${p.usage ? `<div class="product-section"><h3 class="product-section-title">Conseils d'utilisation</h3><p class="product-section-content">${escapeHTML(p.usage)}</p></div>` : ''}
+          ${p.warnings ? `<div class="product-section"><h3 class="product-section-title">Précautions</h3><p class="product-section-content">${escapeHTML(p.warnings)}</p></div>` : ''}
+        `;
+      }
+
+      detailsDiv.innerHTML = `
+        <div class="product-card">
+          <div class="product-header">
+            <img src="${imageUrl}" alt="${escapeHTML(p.name)}" class="product-img" />
+            ${p.brand ? `<div class="product-brand">${escapeHTML(p.brand)}</div>` : ''}
+            <h1 class="product-title">${escapeHTML(p.name)}</h1>
+            ${p.description ? `<p class="product-description">${escapeHTML(p.description)}</p>` : ''}
+          </div>
+          <div class="product-content">
+            ${contentHtml}
+          </div>
+        </div>
+      `;
+    }
+    function renderNutriments(nutriments) {
+      const keyNutriments = [
+        { key: 'energy-kcal_100g', label: 'Énergie', unit: 'kcal' },
+        { key: 'fat_100g', label: 'Matières grasses', unit: 'g' },
+        { key: 'saturated-fat_100g', label: 'dont acides gras saturés', unit: 'g' },
+        { key: 'carbohydrates_100g', label: 'Glucides', unit: 'g' },
+        { key: 'sugars_100g', label: 'dont sucres', unit: 'g' },
+        { key: 'fiber_100g', label: 'Fibres alimentaires', unit: 'g' },
+        { key: 'proteins_100g', label: 'Protéines', unit: 'g' },
+        { key: 'salt_100g', label: 'Sel', unit: 'g' },
+      ];
+      let html = '<p style="font-size:0.9rem;color:#64748b;margin-bottom:4px;">Pour 100g :</p>';
+      keyNutriments.forEach(item => {
+        if (nutriments[item.key] !== undefined) {
+          const isSub = item.label.startsWith('dont');
+          html += `
+            <div class="nutriment-table-row">
+              <span class="nutriment-label ${isSub ? 'sub-item' : ''}">${item.label}</span>
+              <span class="nutriment-value">${nutriments[item.key]} ${item.unit || ''}</span>
+            </div>
+          `;
+        }
+      });
+      return html;
+    }
+    async function fetchProductInfo(barcode) {
+      showLoading();
+      // 1. Try your API (by EAN endpoint)
+      try {
+        const url = `https://heliantys-api.onrender.com/api/supplements/ean/${encodeURIComponent(barcode)}`;
+        const res = await fetch(url);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && data.data) {
+            showProduct(data.data, false);
+            return;
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching from custom API:', err);
+      }
+      // 2. Try Open Food Facts
+      try {
+        const cleanBarcode = barcode.trim();
+        const mainEndpoint = `https://world.openfoodfacts.org/api/v2/product/${cleanBarcode}.json`;
+        const response = await fetch(mainEndpoint, { headers: { 'User-Agent': 'HelianthysKiosk/1.0 (https://heliantys.fr; contact@heliantys.fr)' } });
+        if (response.ok) {
+          const data = await response.json();
+          if (data && data.product) {
+            showProduct(transformOpenFoodFactsProduct(data.product), true);
+            return;
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching from Open Food Facts:', err);
+      }
+      showError('Produit non trouvé.');
+    }
+    function transformOpenFoodFactsProduct(product) {
+      return {
+        name: product.product_name || product.product_name_fr || 'Produit inconnu',
+        brand: product.brands || '',
+        description: product.generic_name || product.generic_name_fr || product.product_name || '',
+        image_url: product.image_url || product.image_front_url || (product.selected_images && product.selected_images.front && product.selected_images.front.display && product.selected_images.front.display.fr) || null,
+        ingredients: product.ingredients_text || product.ingredients_text_fr || '',
+        benefits: [],
+        usage: '',
+        warnings: product.warning || '',
+        certifications: product.labels_tags ? product.labels_tags.map(label => label.replace(/^(en:|fr:)/, '')) : [],
+        price: 0,
+        weight: product.quantity || '',
+        nutriments: product.nutriments || {},
+        categories: product.categories || product.categories_fr || '',
+        nutriscore: product.nutriscore_grade || null,
+        ecoscore: product.ecoscore_grade || null,
+        nova_group: product.nova_group || null,
+      };
+    }
+    // --- Init ---
+    if (barcode) fetchProductInfo(barcode);
+    else showError('Aucun code-barres fourni.');
+  </script>
+</body>
+</html> 

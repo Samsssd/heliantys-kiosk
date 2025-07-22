@@ -1,6 +1,6 @@
 html, body {
   height: 100%;
-  margin: 0;
+    margin: 0;
   padding: 0;
   font-family: 'Raleway', Arial, sans-serif;
   background: #f7f8fa;
@@ -9,25 +9,25 @@ html, body {
 }
 
 .kiosk-container {
-  display: flex;
+    display: flex;
   flex-direction: column;
-  align-items: center;
+    align-items: center;
   justify-content: space-between;
-  height: 100vh;
+    height: 100vh;
   width: 100vw;
   box-sizing: border-box;
   padding: 0 0 0 0;
-}
-
+  }
+  
 .kiosk-title {
   font-size: 2.8rem;
   font-weight: 700;
   color: #17624a;
   margin: 32px 0 0 0;
   letter-spacing: 1px;
-  text-align: center;
-}
-
+    text-align: center;
+  }
+  
 .kiosk-cards {
   display: flex;
   flex-direction: column;
@@ -55,8 +55,8 @@ html, body {
 }
 .kiosk-card:active {
   background: #f0f0f0;
-}
-
+  }
+  
 .kiosk-card-img {
   width: 110px;
   height: 110px;
@@ -67,12 +67,12 @@ html, body {
 
 .kiosk-card-content {
   flex: 1;
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
   justify-content: center;
-}
+  }
 .kiosk-card-content h2 {
-  font-size: 1.5rem;
+    font-size: 1.5rem;
   font-weight: 700;
   margin: 0 0 6px 0;
   color: inherit;
@@ -86,7 +86,7 @@ html, body {
 .kiosk-card-btn {
   background: #17624a;
   color: #fff;
-  border: none;
+    border: none;
   border-radius: 50%;
   width: 48px;
   height: 48px;
@@ -95,7 +95,7 @@ html, body {
   align-items: center;
   justify-content: center;
   margin-left: 16px;
-  cursor: pointer;
+    cursor: pointer;
   box-shadow: 0 2px 8px 0 rgba(23, 98, 74, 0.10);
   transition: background 0.1s;
 }
@@ -117,8 +117,8 @@ html, body {
 }
 .kiosk-card.guide .kiosk-card-content p {
   color: rgba(255,255,255,0.92);
-}
-
+  }
+  
 .kiosk-card.scan {
   background: #c97c5c;
   color: #fff;
@@ -184,5 +184,69 @@ html, body {
     font-size: 1.4rem;
     margin-left: 8px;
   }
+  }
+  
+.recipe-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 20px 18px 18px 18px;
+  border-radius: 24px;
+  margin-bottom: 20px;
+  background: #fff;
+  box-shadow: 0 4px 24px 0 rgba(23,98,74,0.10);
+  gap: 14px;
+}
+.recipe-img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  height: auto;
+  border-radius: 18px 18px 0 0;
+  object-fit: cover;
+  margin: 0;
+}
+.recipe-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 8px;
+}
+.recipe-title {
+  font-size: 1.15rem;
+  margin-top: 4px;
+}
+.recipe-desc {
+  font-size: 1rem;
+}
+.recipe-meta-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+.recipe-view-btn {
+  font-size: 1.1rem;
+  padding: 12px 28px;
+  border-radius: 24px;
+  min-height: 48px;
+  align-self: stretch;
+  margin-top: 10px;
+}
+
+.special-category-card {
+  height: 150px !important;
+  min-width: 180px;
+  border-radius: 26px;
+}
+.special-category-content {
+  padding: 20px 18px 18px 18px;
+}
+.special-category-title {
+  font-size: 1.25rem;
+}
+.special-category-desc {
+  font-size: 1.05rem;
 }
   
