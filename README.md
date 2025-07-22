@@ -76,9 +76,38 @@ heliantys-kiosk/
 
 ---
 
-## 🛠️ Personnalisation
-- **Logo** : Remplacez `public/assets/heliantys-logo.png` par le logo adapté.
-- **Données** : Modifiez `data/produits.json` et `data/recettes.json` pour changer le contenu affiché.
-- **Interface** : Modifiez le HTML/CSS dans `public/` et le JS dans `src/renderer/` pour personnaliser les pages.
+## 🔄 Mise à jour de l'application existante
+
+Si vous avez déjà installé Heliantys Kiosk sur votre appareil, voici comment le mettre à jour pour bénéficier des dernières fonctionnalités et correctifs :
+
+### 1. Ouvrir un terminal et se rendre dans le dossier du projet existant :
+
+```bash
+cd /chemin/vers/heliantys-kiosk
+```
+
+> Remplacez `/chemin/vers/heliantys-kiosk` par le chemin réel du dossier de l'application.
+
+### 2. Récupérer les dernières modifications du dépôt :
+
+```bash
+git pull origin main
+```
+
+> Assurez-vous que le dépôt Git est bien configuré et que vous êtes sur la branche `main`.
+
+### 3. Mettre à jour les dépendances :
+
+```bash
+npm install
+```
+
+### 4. Redémarrer l'application :
+
+```bash
+npm start
+```
+
+> En mode développement, utilisez `npm run dev` si nécessaire.
 
 
